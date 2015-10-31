@@ -1,0 +1,57 @@
+#!/bin/ash
+
+##############################################################################
+#    Copyright (C) 2015  Mark Lee <mark@markelee.com>
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+##############################################################################
+
+run_hook() {
+  rootdev=$(resolve_device "$root") && root=$rootdev
+  poll_device "$root" 20;
+  $mount_handler "/EFI"
+  home_img=${squashfs#*:}
+  squashed_img=${squashfs%:*}
+  mount -t squashfs -o loop "/EFI/${squashed_img}" "/squashed_root"
+  cryptsetup open "/EFI/${home_img}" "user-crypt"
+  mount "/dev/mapper/user-crypt" "/lroot"
+  mem_size=$(free -m | awk '/Mem/ {print int($2)}')
+  lsmod | grep zram ||  modprobe zram num_devices=$(($(nproc)+2))
+  oroot_device=$(zramctl -f -s $(($mem_size*2))M -a lzo -t $(nproc))
+  mkfs.ext4 "$oroot_device" &>/dev/null
+  mount "$oroot_device"  "/troot"
+  mkdir /troot/upper
+  mkdir /troot/work
+  echo "#!/bin/bash
+        crypt_mount=\$(mktemp -d)
+        mount -o defaults,compress=zlib /dev/mapper/user-crypt \${crypt_mount}
+        zram_mount=\$(mktemp -d)
+        mount $oroot_device \${zram_mount}
+        overlay_mount=\$(mktemp -d)
+        mount flush_root -t overlay -o lowerdir=\${crypt_mount},upperdir=\${zram_mount}/upper,workdir=\${zram_mount}/work \${overlay_mount}
+        rsync -ax --delete \${overlay_mount}/ \${crypt_mount} --exclude /usr/bin/overlay_flush
+        umount \${overlay_mount}
+        rm -r \${overlay_mount}
+        umount \${crypt_mount}
+        rm -r \${crypt_mount}
+        umount \${zram_mount}
+        rm -r \${zram_mount}
+        " > /overlay_flush
+  chmod ug+x /overlay_flush
+  oroot_mount() {
+    mount oroot -t overlay -o lowerdir=/lroot:/squashed_root,upperdir=/troot/upper,workdir=/troot/work "$1"
+    mv /overlay_flush /new_root/usr/bin/
+  }
+  mount_handler=oroot_mount
+}
