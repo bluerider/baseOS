@@ -1,0 +1,33 @@
+Download
+--------
+1) baseOS.img.7z
+2) user-crypt.img (this can be downloaded directly to the FAT32 drive after step 3)
+3) latest baseOS-*.sqsh (will be referred to as baseOS-latest.sqsh here)
+
+Windows Install
+---------------
+1) Read "https://wiki.ubuntu.com/Win32DiskImager" and download Win32Disk Imager
+2) Write baseOS.img to a storage device with Win32Disk Imager
+3) Mount the FAT32 partition on the storage device.
+4) Copy the lastest baseOS-latest.sqsh to the storage device
+5) Rename baseOS-latest.sqsh to baseOS.sqsh
+6) Move user-crypt.img to the storage device.
+7) Unmount the storage device.
+
+Linux Install
+-------------
+1) 7z -e -so baseOS.img.7z| sudo dd of=/dev/<storage device>
+2) sudo partprobe
+3) sudo mount /dev/<storage device>2 /mnt
+4) sudo cp baseOS-latest.sqsh /mnt/baseOS.sqsh
+5) sudo mv user-crypt.img /mnt/
+6) sudo umount -R /mnt
+
+
+RUN
+---
+1) Plug the storage device into a x86-64 computer.
+2) Enter boot menu via ESC, F2, F12, F9, etc...
+3) Boot the storage device (preferably UEFI, but BIOS is fine).
+4) Enter in your password to unlock user-crypt.img.
+5) Changes aren't saved by default, to save your changes, run 'sudo overlay_flush' in a terminal (press  `)
