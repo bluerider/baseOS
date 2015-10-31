@@ -1,0 +1,15 @@
+gnome
+openvpn
+tor
+openssh
+mpv
+x86-video-{intel,nouveau,ati}
+xf86-input-synaptics
+xorg-server{-,xwayland}
+util-linux
+gedit
+nautilus
+file-roller
+chromium
+pidgin{,-otr}
+networkmanager

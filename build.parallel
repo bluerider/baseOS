@@ -1,0 +1,4 @@
+#!/usr/bin/parallel --shebang-wrap /bin/bash
+
+## source the scripts
+./$1
