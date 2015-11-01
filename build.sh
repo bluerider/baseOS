@@ -24,3 +24,5 @@ if [ "$1" == "-p" ]; then
  else
    serial-build
 fi
+
+echo "Please read README on how to write baseOS.img to disk"
