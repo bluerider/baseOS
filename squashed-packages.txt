@@ -3,9 +3,9 @@ openvpn
 tor
 openssh
 mpv
-x86-video-intel
-x86-video-nouveau
-x86-video-ati
+xf86-video-intel
+xf86-video-nouveau
+xf86-video-ati
 xf86-input-synaptics
 xorg-server
 xorg-server-xwayland
