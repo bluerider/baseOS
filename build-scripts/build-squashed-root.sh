@@ -12,7 +12,7 @@ done < squashed-packages.txt
 ## requires arch-install-scripts pacman
 ## install arch linux to a directory
 mkdir baseOS-squashed-root
-pacstrap baseOS-squashed-root base ${packages[@]}
+pacstrap -d baseOS-squashed-root base ${packages[@]}
 
 ## copy baseOS-squashfs hooks to the new arch linux install
 cp initcpio-hooks/hooks/squashfs baseOS-squashed-root/usr/lib/initpcio/hooks/
