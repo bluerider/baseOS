@@ -57,7 +57,6 @@ fat_uuid=$(blkid ${loop_parts}p1 | awk '{print $2}')
 sed -i "s/UUID=XXXX-XXX/${fat_uuid//\"/}/g" "$temp_mount/boot/grub/grub.cfg"
 
 ## clean up
-read
 umount "$temp_mount"
 rm -r "$temp_mount"
 kpartx -d baseOS.img
