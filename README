@@ -1,3 +1,9 @@
+Build (requires Pacman, 64-bit Linux, arch-install-scripts, squashfs-tools, kpartx, gdisk, dmcrypt)
+--------
+1) run baseOS.sh with root privileges
+2) run build-scripts/configure-user-crypt-img.sh if you want to configure your user layer
+3) Follow OS dependent instructions (not using baseOS.img.7z, but baseOS.img, baseOS.sqsh)
+
 Download
 --------
 1) baseOS.img.7z
