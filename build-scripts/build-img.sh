@@ -52,9 +52,9 @@ grub-install --target=x86_64-efi --efi-directory="$temp_mount" --bootloader-id=g
 cp "grub.cfg" "$temp_mount/boot/grub/"
 ## get the UUID of the FAT partition
 fat_uuid=$(blkid ${loop_parts}p1 | awk '{print $2}')
-echo "Please edit $temp_mount/boot/grub/grub.cfg and replace UUID=XXXX-XXX with $fat_uuid"
+#echo "Please edit $temp_mount/boot/grub/grub.cfg and replace UUID=XXXX-XXX with $fat_uuid"
 ## add UUID to grub configuration file 
-#sed "s/UUID=XXXX-XXX/${fat_uuid//\"/}/g" "$temp_mount/boot/grub/grub.cfg"
+sed -i "s/UUID=XXXX-XXX/${fat_uuid//\"/}/g" "$temp_mount/boot/grub/grub.cfg"
 
 ## clean up
 read
