@@ -15,7 +15,7 @@ mkdir baseOS-squashed-root
 pacstrap -d baseOS-squashed-root base ${packages[@]}
 
 ## copy baseOS-squashfs hooks to the new arch linux install
-cp initcpio-hooks/hooks/squashfs baseOS-squashed-root/usr/lib/initpcio/hooks/
+cp initcpio-hooks/hooks/squashfs baseOS-squashed-root/usr/lib/initcpio/hooks/
 cp initcpio-hooks/install/squashfs baseOS-squashed-root/usr/lib/initcpio/install/
 
 ## copy mkinitcpio.conf to the new arch linux install
