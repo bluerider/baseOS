@@ -22,7 +22,6 @@ cp initcpio-hooks/install/squashfs baseOS-squashed-root/usr/lib/initcpio/install
 cp mkinitcpio.conf baseOS-squashed-root/etc/
 
 ## rebuild initramfs in the new arch linux install
-arch-chroot baseOS-squashed-root 'mkinitcpio -p linux'
 
-## squashed the baseOS directory
+## squash the baseOS directory
 mksquashfs baseOS-squashed-root baseOS.sqsh
