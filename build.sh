@@ -15,12 +15,14 @@ done
 }
 
 parallel-build() {
+## build-user-crypt-img.sh requires user input, hence it serial
+"build-scripts/build-user-crypt-img.sh"
 ## run build.parallel
-./build-parallel ${buildscripts[@]}
+./build.parallel build-img.sh build-squashed-root.sh
 }
 
 if [ "$1" == "-p" ]; then
-   parralel-build
+   parallel-build
  else
    serial-build
 fi
