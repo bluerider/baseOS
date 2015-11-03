@@ -6,7 +6,6 @@
 ## build scripts to use, will be sourced in order and in parallel
 buildscripts=('build-img.sh' 'build-squashed-root.sh' 'build-user-crypt-img.sh')
 
-
 serial-build() {
 ## source build-scripts
 for a in ${buildscripts[@]}; do
@@ -20,6 +19,21 @@ parallel-build() {
 ## run build.parallel
 ./build.parallel build-img.sh build-squashed-root.sh
 }
+
+# Check to see if dependencies are available
+deps=('pacstrap' 'grub-install' 'mkfs.fat' 'kpartx' 'parallel' 'cryptsetup' 'mksquashfs' 'arch-chroot')
+unset deperr
+for a in ${deps[@]}; do
+  which "$a" >/dev/null
+  if [ $? != 0 ]; then
+     deperr+=" $a"
+  fi
+done
+
+if [ ! -z "$deperr" ]; then
+   echo "Couldn't find $deperr"
+   exit
+fi
 
 if [ "$1" == "-p" ]; then
    parallel-build
