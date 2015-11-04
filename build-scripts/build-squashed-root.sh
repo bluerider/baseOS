@@ -22,6 +22,7 @@ cp initcpio-hooks/install/squashfs baseOS-squashed-root/usr/lib/initcpio/install
 cp mkinitcpio.conf baseOS-squashed-root/etc/
 
 ## rebuild initramfs in the new arch linux install
+pacstrap -d baseOS-squashed-root linux
 
 ## squash the baseOS directory
 mksquashfs baseOS-squashed-root baseOS.sqsh

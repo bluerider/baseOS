@@ -44,7 +44,7 @@ mount "${loop_parts}p1" "$temp_mount"
 
 ## install grub
 grub-install --target=i386-pc --boot-directory="$temp_mount/boot" "${loop_device}"
-grub-install --target=x86_64-efi --efi-directory="$temp_mount" --bootloader-id=grub --boot-directory="$temp_mount/boot" --removable
+grub-install --target=i386-efi --efi-directory="$temp_mount" --bootloader-id=grub --boot-directory="$temp_mount/boot" --removable
 
 ## install grub configuration files
 ## should get UUID of root device
